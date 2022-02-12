@@ -1,20 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import {
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import colors from './app/config/colors';
+import LandingScreen from './app/screens/LandingScreen';
+import LoginScreen from './app/screens/LoginScreen';
+import AdminMap from './app/components/AdminMap';
+
+const Stack = createNativeStackNavigator();
+const StackNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='LandingScreen'
+        component={LandingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name='AdminMap' component={AdminMap} />
+      <Stack.Screen
+        name='Login'
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    flex: 1,
   },
 });
