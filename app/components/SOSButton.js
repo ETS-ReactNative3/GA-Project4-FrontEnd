@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import colors from '../config/colors';
 
@@ -9,7 +9,7 @@ export default function SOSButton() {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('Map')}
+      onPress={() => navigation.navigate('AdminScreen')}
       style={styles.touchable}
     >
       <View style={styles.button}>

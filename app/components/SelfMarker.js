@@ -2,7 +2,7 @@ import React from 'react';
 import { Marker } from 'react-native-maps';
 import { Image, StyleSheet, Text } from 'react-native';
 
-export default function AdminMarker({ position }) {
+export default function SelfMarker({ position }) {
   return (
     <Marker
       style={{ alignItems: 'center' }}

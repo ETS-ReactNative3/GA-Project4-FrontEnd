@@ -9,20 +9,30 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import io from 'socket.io-client';
 
 import colors from './app/config/colors';
+import AdminScreen from './app/screens/AdminScreen';
 import LandingScreen from './app/screens/LandingScreen';
 import LoginScreen from './app/screens/LoginScreen';
 import Map from './app/components/Map';
-import io from 'socket.io-client';
 
 const Stack = createNativeStackNavigator();
-const StackNavigator = () => {
+const StackNavigator = ({ navigation }) => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name='Map' component={Map} />
+    <Stack.Navigator
+      screenOptions={{
+        animationTypeForReplace: 'pop',
+        animation: 'slide_from_bottom',
+      }}
+    >
       <Stack.Screen
-        name='Login'
+        name='AdminScreen'
+        component={AdminScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='LoginScreen'
         component={LoginScreen}
         options={{ headerShown: false }}
       />
@@ -40,6 +50,10 @@ export default function App() {
     auth: {
       token: 'abc',
     },
+  });
+
+  socket.on('connect', () => {
+    console.log('connected to io server');
   });
 
   socket.on('hello', (msg) => {

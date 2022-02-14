@@ -4,12 +4,12 @@ import { Image, StyleSheet, Text, View, Dimensions } from 'react-native';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 
-import AdminMarker from './AminMarker';
+import SelfMarker from './SelfMarker';
 
 const LOCATION_TASK = 'LOCATION_TASK';
 let foregroundSubscription = null;
 
-export default function Map() {
+export default function Map({ children }) {
   const [position, setPosition] = useState({
     latitude: 40.7128,
     latitudeDelta: 0.01,
@@ -27,7 +27,7 @@ export default function Map() {
       const { locations } = data;
       const location = locations[0];
       if (location) {
-        console.log('Location in background');
+        // console.log('Tracking location in background');
         const { latitude, longitude } = location.coords;
         setPosition((prevPosition) => {
           return { ...prevPosition, latitude, longitude };
@@ -122,7 +122,8 @@ export default function Map() {
   return (
     <View style={styles.container}>
       <MapView style={styles.map} region={position}>
-        <AdminMarker position={position} />
+        <SelfMarker position={position} />
+        {children}
       </MapView>
     </View>
   );
