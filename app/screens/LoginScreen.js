@@ -10,6 +10,7 @@ import AppTextInput from '../components/TextInput';
 import AppButton from '../components/Button';
 import BigLogo from '../components/BigLogo';
 import ErrorMessage from '../components/ErrorMessage';
+import { getTokenAPI } from '../functions/token';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().label('Username'),
@@ -20,34 +21,10 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const [credentialErr, setCredentialErr] = useState(false);
 
-  const getToken = async (credentials) => {
-    try {
-      const res = await fetch('http://localhost:4000/api/auth', {
-        method: 'POST',
-        headers: {
-          // authorization: 'hihi',
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-      const { token } = await res.json();
-      if (res.status !== 200) {
-        setCredentialErr(true);
-        return console.log('error logging in');
-      }
-      await SecureStore.setItemAsync('token', token);
-      navigation.navigate('AdminScreen');
-      // const result = await SecureStore.getItemAsync('token');
-      // if (result) {
-      //   alert("🔐 Here's your value 🔐 \n" + result);
-      // } else {
-      //   alert('No values stored under that key.');
-      // }
-      // return console.log(token);
-    } catch (error) {
-      console.error(error);
-    }
+  const login = async (credentials) => {
+    const loggedIn = await getTokenAPI(credentials);
+    if (!loggedIn) return setCredentialErr(true);
+    navigation.navigate('AdminScreen');
   };
 
   return (
@@ -56,11 +33,12 @@ export default function LoginScreen() {
         <BigLogo />
         <Formik
           initialValues={{ username: '', password: '' }}
-          onSubmit={(values) => getToken(values)}
+          onSubmit={(values) => {
+            login(values);
+          }}
           validationSchema={validationSchema}
         >
           {({
-            values,
             handleChange,
             handleSubmit,
             errors,

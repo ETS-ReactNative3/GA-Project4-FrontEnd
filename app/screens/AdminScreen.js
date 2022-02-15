@@ -2,57 +2,81 @@ import React, { useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { useNavigation } from '@react-navigation/native';
 import { Marker } from 'react-native-maps';
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 import Map from '../components/Map';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import UserMarker from '../components/UserMarker';
+import { useSelectedUserContext } from '../context/Context';
+import colors from '../config/colors';
+import {
+  getUsersInfoAPI,
+  removeToken,
+  removeUsername,
+  retrieveToken,
+  retrieveUsername,
+} from '../functions/token';
+import LogoutButton from '../components/LogoutButton';
+import DetailsModal from '../components/DetailsModal';
 
 function AdminScreen() {
   const navigation = useNavigation();
-  const [token, setToken] = useState(null);
+  const [username, setUsername] = useState(null);
   const [usersInfo, setUsersInfo] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalHeight, setModalHeight] = useState('10%');
+  const [modalArrow, setModalArrow] = useState('chevron-up');
+  const [selectedUser, setSelectedUser] = useSelectedUserContext();
 
-  const getUsersInfo = async (token) => {
-    try {
-      const res = await fetch('http://localhost:4000/api/user/all', {
-        method: 'GET',
-        headers: {
-          authorization: token,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await res.json();
-      // console.log('data', data);
-      if (res.status !== 200) {
-        return console.log('fetch error');
-      }
-      setUsersInfo(data);
-    } catch (error) {
-      console.error('error', error);
+  const handleModal = () => {
+    if (!modalVisible) {
+      setModalVisible(!modalVisible);
+      setModalHeight('70%');
+      setModalArrow('chevron-down');
+    }
+    if (modalVisible) {
+      setModalVisible(!modalVisible);
+      setModalHeight('10%');
+      setModalArrow('chevron-up');
     }
   };
 
-  const retrieveToken = async () => {
-    const token = await SecureStore.getItemAsync('token');
+  const getUsersInfo = async () => {
+    const data = await getUsersInfoAPI();
+    if (!data) return;
+    setUsersInfo(data);
+  };
+
+  const checkToken = async () => {
+    const token = await retrieveToken();
     if (!token) {
       return navigation.navigate('LoginScreen');
     }
-    setToken(token);
-    getUsersInfo(token);
+    const username = await retrieveUsername();
+    setUsername(username);
+    getUsersInfo();
   };
 
-  const removeToken = async () => {
-    await SecureStore.deleteItemAsync('token');
-    const token = await SecureStore.getItemAsync('token');
-    setToken(token);
+  const logout = async () => {
+    await removeToken();
+    await removeUsername();
+    setUsername(null);
+    getUsersInfo(null);
+    setSelectedUser(null);
     navigation.navigate('LoginScreen');
   };
 
   useEffect(() => {
-    retrieveToken();
+    checkToken();
   }, []);
-  // console.log('usersinfo', usersInfo);
 
   return (
     <>
@@ -60,35 +84,52 @@ function AdminScreen() {
         {usersInfo
           ? usersInfo.map((user, index) => {
               return (
-                <Marker
+                <UserMarker
                   key={index}
-                  coordinate={{
-                    latitude: user.latitude,
-                    latitudeDelta: 0.01,
-                    longitude: user.longitude,
-                    longitudeDelta: 0.01,
-                  }}
+                  user={user}
+                  index={index}
+                  openModal={() => setModalHeight('70%')}
                 />
               );
             })
           : null}
-        <SafeAreaView style={styles.logout}>
+      </Map>
+      <LogoutButton onPress={logout} />
+      {/* <View style={{ height: modalHeight }}>
+        <ScrollView
+          style={{
+            backgroundColor: colors.primarylite,
+            borderRadius: 30,
+          }}
+        >
           <TouchableWithoutFeedback
             onPress={() => {
-              console.log('logout');
-              removeToken();
+              handleModal();
             }}
           >
-            <Text style={{ fontSize: 20 }}>Logout</Text>
+            <Feather
+              name={modalArrow}
+              size={25}
+              style={{
+                textAlign: 'center',
+                padding: 5,
+                width: '100%',
+              }}
+            />
           </TouchableWithoutFeedback>
-        </SafeAreaView>
-      </Map>
+          <Text style={{ paddingHorizontal: 15, fontSize: 16 }}>
+            Hi {username}, let's make someone's day better today!
+          </Text>
+          <Text>{selectedUser ? selectedUser.name : null}</Text>
+        </ScrollView>
+      </View> */}
+      <DetailsModal />
     </>
   );
 }
 
-const styles = StyleSheet.create({
-  logout: { alignItems: 'flex-end', paddingRight: 18 },
-});
+// const styles = StyleSheet.create({
+//   logout: { position: 'absolute', right: 18, top: 45 },
+// });
 
 export default AdminScreen;

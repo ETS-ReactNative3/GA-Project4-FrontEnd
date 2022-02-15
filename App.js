@@ -16,6 +16,7 @@ import AdminScreen from './app/screens/AdminScreen';
 import LandingScreen from './app/screens/LandingScreen';
 import LoginScreen from './app/screens/LoginScreen';
 import Map from './app/components/Map';
+import DataProvider from './app/context/Context';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = ({ navigation }) => {
@@ -27,13 +28,13 @@ const StackNavigator = ({ navigation }) => {
       }}
     >
       <Stack.Screen
-        name='AdminScreen'
-        component={AdminScreen}
+        name='LoginScreen'
+        component={LoginScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name='LoginScreen'
-        component={LoginScreen}
+        name='AdminScreen'
+        component={AdminScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -61,9 +62,11 @@ export default function App() {
   });
 
   return (
-    <NavigationContainer>
-      <StackNavigator />
-    </NavigationContainer>
+    <DataProvider>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </DataProvider>
   );
 }
 
