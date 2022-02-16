@@ -11,7 +11,6 @@ import { Feather } from '@expo/vector-icons';
 import colors from '../config/colors';
 import { retrieveUsername } from '../functions/token';
 import { useSelectedUserContext } from '../context/Context';
-import UserDetails from './AdminModalDetails';
 import AdminModalDetails from './AdminModalDetails';
 
 export default function AdminModal({

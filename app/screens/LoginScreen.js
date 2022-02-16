@@ -6,11 +6,11 @@ import * as Yup from 'yup';
 import * as SecureStore from 'expo-secure-store';
 
 import colors from '../config/colors';
-import AppTextInput from '../components/TextInput';
 import AppButton from '../components/Button';
 import BigLogo from '../components/BigLogo';
 import ErrorMessage from '../components/ErrorMessage';
 import { getTokenAPI } from '../functions/token';
+import LoginTextInput from '../components/LoginTextInput';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().label('Username'),
@@ -46,7 +46,7 @@ export default function LoginScreen() {
             touched,
           }) => (
             <>
-              <AppTextInput
+              <LoginTextInput
                 autoCorrect={false}
                 autoCapitalize='none'
                 clearButtonMode='always'
@@ -62,7 +62,7 @@ export default function LoginScreen() {
                 error={errors.username}
                 visible={touched.username}
               />
-              <AppTextInput
+              <LoginTextInput
                 autoCorrect={false}
                 autoCapitalize='none'
                 clearButtonMode='always'

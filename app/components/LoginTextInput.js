@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 
-export default function AppTextInput({ icon, ...otherProps }) {
+export default function LoginTextInput({ icon, ...otherProps }) {
   return (
     <View style={styles.container}>
       {icon && <Feather name={icon} size={20} style={styles.icon} />}
