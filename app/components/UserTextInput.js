@@ -16,7 +16,7 @@ export default function UserTextInput({ icon, ...otherProps }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.light,
-    borderRadius: 25,
+    borderRadius: 20,
     flex: 1,
     flexDirection: 'row',
     marginVertical: 8,

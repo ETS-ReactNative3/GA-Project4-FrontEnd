@@ -3,13 +3,11 @@ import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import * as SecureStore from 'expo-secure-store';
 
-import colors from '../config/colors';
 import AppButton from '../components/Button';
 import BigLogo from '../components/BigLogo';
 import ErrorMessage from '../components/ErrorMessage';
-import { getTokenAPI } from '../functions/token';
+import { getTokenAPI } from '../functions/ApiFunctions';
 import LoginTextInput from '../components/LoginTextInput';
 
 const validationSchema = Yup.object().shape({

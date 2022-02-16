@@ -45,6 +45,28 @@ const getUsersInfoAPI = async () => {
   }
 };
 
+const postUserAPI = async (userInfo) => {
+  try {
+    const res = await fetch('http://localhost:4000/api/user', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userInfo),
+    });
+
+    if (res.status !== 201) {
+      return false;
+    }
+    const data = await res.json();
+    console.log(data);
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const removeToken = async () => {
   await SecureStore.deleteItemAsync('token');
 };
@@ -66,6 +88,7 @@ const retrieveUsername = async () => {
 export {
   getTokenAPI,
   getUsersInfoAPI,
+  postUserAPI,
   removeToken,
   removeUsername,
   retrieveToken,

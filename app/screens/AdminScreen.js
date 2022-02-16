@@ -17,7 +17,7 @@ import {
   removeUsername,
   retrieveToken,
   retrieveUsername,
-} from '../functions/token';
+} from '../functions/ApiFunctions';
 import LogoutButton from '../components/LogoutButton';
 import AdminModal from '../components/AdminModal';
 import ShowUserMarker from '../components/ShowUserMarker';

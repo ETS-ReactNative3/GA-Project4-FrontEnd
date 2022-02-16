@@ -7,127 +7,228 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
-import colors from '../config/colors';
+import { Switch } from 'react-native-paper';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
+import colors from '../config/colors';
 import AppButton from '../components/Button';
 import DetailTitle from './DetailTitle';
+import ErrorMessage from '../components/ErrorMessage';
 import UserTextInput from './UserTextInput';
+import { useUserLocationContext } from '../context/Context';
+import { postUserAPI } from '../functions/ApiFunctions';
 
-const accompanied = [
-  { label: 'Yes', value: true },
-  { label: 'No', value: false },
-];
-
-const gender = [
-  { label: 'Female', value: 'Female' },
-  { label: 'Male', value: 'Male' },
-];
-
-const safetyLevel = [
-  { label: '0 - least safe', value: 0 },
-  { label: '1', value: 1 },
-  { label: '2', value: 2 },
-  { label: '3', value: 3 },
-  { label: '4', value: 4 },
-  { label: '5', value: 5 },
-  { label: '6', value: 6 },
-  { label: '7', value: 7 },
-  { label: '8', value: 8 },
-  { label: '9', value: 9 },
-  { label: '10 - most safe', value: 10 },
-];
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required().label('Name'),
+  id: Yup.string().required().label('ID'),
+  gender: Yup.string().required().max(1).label('Gender'),
+  age: Yup.number().required().max(120).label('Age'),
+  safety: Yup.number().required().min(0).max(10).label('This'),
+  emotion: Yup.string().required().label('This'),
+  situation: Yup.string().required().label('This'),
+  perpetrator: Yup.string().required().label('This'),
+  companion: Yup.boolean().required().label('This'),
+});
 
 export default function UserModalDetails(props) {
   const [value, setValue] = useState(null);
+  const [UserLocation, setUserLocation] = useUserLocationContext();
+  const { latitude, longitude } = UserLocation;
+
   return (
-    <View>
-      <View style={styles.row}>
-        <DetailTitle>Name:</DetailTitle>
-        <UserTextInput />
-      </View>
-      <View style={styles.row}>
-        <DetailTitle>Gender:</DetailTitle>
-        {/* <Detail>{selectedUser.gender}</Detail> */}
-        <Dropdown
-          style={styles.dropdown}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          data={gender}
-          iconStyle={styles.iconStyle}
-          labelField='label'
-          valueField='value'
-          placeholder='Select'
-          value={value}
-          onChange={(item) => {
-            setValue(item.value);
-            console.log(item.value);
-          }}
-        />
-      </View>
-      <View style={styles.row}>
-        <DetailTitle>Age:</DetailTitle>
-        <UserTextInput />
-      </View>
-      <View style={styles.column}>
-        <DetailTitle style={{ width: '100%' }}>
-          Who is {'(potentially)'} causing harm?
-        </DetailTitle>
-        <UserTextInput placeholder='i.e. friend, self, spouse, stranger, parent' />
-      </View>
-      <View style={styles.column}>
-        <DetailTitle style={{ width: '100%' }}>
-          How are you feeling right now?
-        </DetailTitle>
-        <UserTextInput />
-      </View>
-      <View style={styles.column}>
-        <DetailTitle style={{ width: '100%' }}>
-          How safe do you feel?
-        </DetailTitle>
-        <Dropdown
-          style={styles.dropdown}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          data={safetyLevel}
-          iconStyle={styles.iconStyle}
-          labelField='label'
-          valueField='value'
-          placeholder='Rate 0-10'
-          value={value}
-          onChange={(item) => {
-            setValue(item.value);
-            console.log(item.value);
-          }}
-        />
-      </View>
-      <View style={styles.column}>
-        <DetailTitle style={{ width: '100%' }}>
-          Are you being accompanied?
-        </DetailTitle>
-        <Dropdown
-          style={styles.dropdown}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          data={accompanied}
-          iconStyle={styles.iconStyle}
-          labelField='label'
-          valueField='value'
-          placeholder='Select'
-          value={value}
-          onChange={(item) => {
-            setValue(item.value);
-            console.log(item.value);
-          }}
-        />
-      </View>
-      <View style={styles.column}>
-        <DetailTitle style={{ width: '100%' }}>
-          Describe your situation.
-        </DetailTitle>
-        <UserTextInput multiline numberOfLines={4} />
-      </View>
-      <AppButton title='Submit' />
+    <View style={styles.form}>
+      <Formik
+        initialValues={{
+          name: '',
+          id: '',
+          gender: '',
+          age: null,
+          safety: null,
+          emotion: '',
+          situation: '',
+          perpetrator: '',
+          companion: false,
+        }}
+        onSubmit={async (values) => {
+          const userInfo = { ...values, latitude, longitude };
+          await postUserAPI(userInfo);
+        }}
+        validationSchema={validationSchema}
+      >
+        {({
+          handleChange,
+          handleSubmit,
+          errors,
+          setFieldTouched,
+          setFieldValue,
+          touched,
+          values,
+        }) => (
+          <>
+            <View style={styles.row}>
+              <DetailTitle>Name:</DetailTitle>
+              <View style={styles.container}>
+                <UserTextInput
+                  autoCorrect={false}
+                  autoCapitalize='words'
+                  clearButtonMode='always'
+                  onBlur={() => {
+                    setFieldTouched('name');
+                  }}
+                  onChangeText={handleChange('name')}
+                  textContentType='username'
+                />
+                <ErrorMessage error={errors.name} visible={touched.name} />
+              </View>
+            </View>
+
+            <View style={styles.row}>
+              <DetailTitle>ID:</DetailTitle>
+              <View style={styles.container}>
+                <UserTextInput
+                  autoCorrect={false}
+                  autoCapitalize='characters'
+                  clearButtonMode='always'
+                  onBlur={() => {
+                    setFieldTouched('id');
+                  }}
+                  onChangeText={handleChange('id')}
+                />
+                <ErrorMessage error={errors.id} visible={touched.id} />
+              </View>
+            </View>
+
+            <View style={styles.row}>
+              <DetailTitle>Gender:</DetailTitle>
+              <View style={styles.container}>
+                <UserTextInput
+                  autoCorrect={false}
+                  autoCapitalize='characters'
+                  clearButtonMode='always'
+                  onBlur={() => {
+                    setFieldTouched('gender');
+                  }}
+                  onChangeText={handleChange('gender')}
+                  placeholder='F/M'
+                />
+                <ErrorMessage error={errors.gender} visible={touched.gender} />
+              </View>
+            </View>
+
+            <View style={styles.row}>
+              <DetailTitle>Age:</DetailTitle>
+              <View style={styles.container}>
+                <UserTextInput
+                  autoCorrect={false}
+                  clearButtonMode='always'
+                  keyboardType='number-pad'
+                  onBlur={() => {
+                    setFieldTouched('age');
+                  }}
+                  onChangeText={(v) => setFieldValue('age', parseInt(v))}
+                />
+                <ErrorMessage error={errors.age} visible={touched.age} />
+              </View>
+            </View>
+
+            <View style={styles.column}>
+              <DetailTitle style={{ width: '100%' }}>
+                Who is {'(potentially)'} causing harm?
+              </DetailTitle>
+              <UserTextInput
+                autoCapitalize='sentences'
+                clearButtonMode='always'
+                onBlur={() => {
+                  setFieldTouched('perpetrator');
+                }}
+                onChangeText={handleChange('perpetrator')}
+                placeholder='i.e. friend, self, spouse, stranger, parent'
+              />
+              <ErrorMessage
+                error={errors.perpetrator}
+                visible={touched.perpetrator}
+              />
+            </View>
+
+            <View style={styles.column}>
+              <DetailTitle style={{ width: '100%' }}>
+                How are you feeling right now?
+              </DetailTitle>
+              <UserTextInput
+                autoCapitalize='sentences'
+                clearButtonMode='always'
+                onBlur={() => {
+                  setFieldTouched('emotion');
+                }}
+                onChangeText={handleChange('emotion')}
+                placeholder='i.e. angry, depressed, scared, suicidal'
+              />
+              <ErrorMessage error={errors.emotion} visible={touched.emotion} />
+            </View>
+
+            <View style={styles.column}>
+              <DetailTitle style={{ width: '100%' }}>
+                How safe do you feel?
+              </DetailTitle>
+              <Text style={{ fontSize: 14, color: colors.medium }}>
+                On a scale of 0-10, 0 being dangerously unsafe and 10 being most
+                safe
+              </Text>
+              <UserTextInput
+                autoCorrect={false}
+                clearButtonMode='always'
+                keyboardType='number-pad'
+                onBlur={() => {
+                  setFieldTouched('safety');
+                }}
+                onChangeText={(v) => setFieldValue('safety', parseInt(v))}
+                placeholder='0-10'
+              />
+              <ErrorMessage error={errors.safety} visible={touched.safety} />
+            </View>
+
+            <View style={styles.column}>
+              <DetailTitle style={{ width: '100%' }}>
+                Are you being accompanied?
+              </DetailTitle>
+              <View style={styles.row}>
+                <Switch
+                  value={values.companion}
+                  onValueChange={() =>
+                    setFieldValue('companion', !values.companion)
+                  }
+                />
+                <Text style={styles.text}>
+                  {values.companion ? 'Yes' : 'No'}
+                </Text>
+              </View>
+              <ErrorMessage
+                error={errors.companion}
+                visible={touched.companion}
+              />
+            </View>
+
+            <View style={styles.column}>
+              <DetailTitle style={{ width: '100%' }}>
+                Describe your situation.
+              </DetailTitle>
+              <UserTextInput
+                autoCapitalize='sentences'
+                clearButtonMode='always'
+                multiline
+                numberOfLines={4}
+                onBlur={() => {
+                  setFieldTouched('situation');
+                }}
+                onChangeText={handleChange('situation')}
+              />
+            </View>
+
+            <AppButton title='Submit' onPress={handleSubmit} />
+          </>
+        )}
+      </Formik>
     </View>
   );
 }
@@ -152,6 +253,9 @@ const styles = StyleSheet.create({
     padding: 12,
     paddingLeft: 20,
   },
+  form: {
+    marginBottom: 20,
+  },
   placeholderStyle: {
     fontSize: 18,
     color: colors.placeholder,
@@ -159,5 +263,10 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     color: colors.dark,
     fontSize: 18,
+  },
+  text: {
+    color: colors.medium_dark,
+    fontSize: 18,
+    marginLeft: 10,
   },
 });

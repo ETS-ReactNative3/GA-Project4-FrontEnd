@@ -5,18 +5,19 @@ import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 
 import SelfMarker from './SelfMarker';
+import { useUserLocationContext } from '../context/Context';
 
 const LOCATION_TASK = 'LOCATION_TASK';
 let foregroundSubscription = null;
 
 export default function Map({ children }) {
-  const [position, setPosition] = useState({
-    latitude: 40.7128,
-    latitudeDelta: 0.01,
-    longitude: 74.006,
-    longitudeDelta: 0.01,
-  });
-  const [errorMsg, setErrorMsg] = useState(null);
+  // const [position, setUserLocation] = useState({
+  //   latitude: 40.7128,
+  //   latitudeDelta: 0.01,
+  //   longitude: 74.006,
+  //   longitudeDelta: 0.01,
+  // });
+  const [UserLocation, setUserLocation] = useUserLocationContext();
 
   // Define the background task for location tracking
   TaskManager.defineTask(LOCATION_TASK, ({ data, error }) => {
@@ -29,8 +30,8 @@ export default function Map({ children }) {
       if (location) {
         // console.log('Tracking location in background');
         const { latitude, longitude } = location.coords;
-        setPosition((prevPosition) => {
-          return { ...prevPosition, latitude, longitude };
+        setUserLocation((prevUserLocation) => {
+          return { ...prevUserLocation, latitude, longitude };
         });
       }
     }
@@ -59,8 +60,8 @@ export default function Map({ children }) {
       },
       (location) => {
         const { latitude, longitude } = location.coords;
-        setPosition((prevPosition) => {
-          return { ...prevPosition, latitude, longitude };
+        setUserLocation((prevUserLocation) => {
+          return { ...prevUserLocation, latitude, longitude };
         });
       }
     );
@@ -122,8 +123,8 @@ export default function Map({ children }) {
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} region={position}>
-        <SelfMarker position={position} />
+      <MapView style={styles.map} region={UserLocation}>
+        <SelfMarker position={UserLocation} />
         {children}
       </MapView>
     </View>

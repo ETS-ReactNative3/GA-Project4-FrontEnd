@@ -9,7 +9,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 
 import colors from '../config/colors';
-import { retrieveUsername } from '../functions/token';
+import { retrieveUsername } from '../functions/ApiFunctions';
 import { useSelectedUserContext } from '../context/Context';
 import AdminModalDetails from './AdminModalDetails';
 import UserModalDetails from './UserModalDetails';
@@ -32,7 +32,7 @@ export default function UserModal({
     }
     if (modalVisible) {
       setModalVisible(!modalVisible);
-      setModalHeight('20%');
+      setModalHeight('18%');
       setModalArrow('chevron-up');
     }
   };
@@ -97,6 +97,6 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 24,
     fontWeight: 'bold',
-    paddingBottom: 15,
+    paddingBottom: 18,
   },
 });
