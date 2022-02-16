@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as SecureStore from 'expo-secure-store';
 import { useNavigation } from '@react-navigation/native';
-import { Marker } from 'react-native-maps';
 import {
   ScrollView,
   StyleSheet,
@@ -9,11 +7,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import GestureRecognizer from 'react-native-swipe-gestures';
 
 import Map from '../components/Map';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import UserMarker from '../components/UserMarker';
 import { useSelectedUserContext } from '../context/Context';
 import colors from '../config/colors';
@@ -25,7 +20,7 @@ import {
   retrieveUsername,
 } from '../functions/token';
 import LogoutButton from '../components/LogoutButton';
-import DetailsModal from '../components/DetailsModal';
+import AdminModal from '../components/AdminModal';
 
 function AdminScreen() {
   const navigation = useNavigation();
@@ -36,12 +31,6 @@ function AdminScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
 
-  const getUsersInfo = async () => {
-    const data = await getUsersInfoAPI();
-    if (!data) return;
-    setUsersInfo(data);
-  };
-
   const checkToken = async () => {
     const token = await retrieveToken();
     if (!token) {
@@ -49,7 +38,12 @@ function AdminScreen() {
     }
     const username = await retrieveUsername();
     setUsername(username);
-    getUsersInfo();
+  };
+
+  const getUsersInfo = async () => {
+    const data = await getUsersInfoAPI();
+    if (!data) return;
+    setUsersInfo(data);
   };
 
   const logout = async () => {
@@ -63,8 +57,8 @@ function AdminScreen() {
 
   useEffect(() => {
     checkToken();
+    getUsersInfo();
   }, []);
-
   return (
     <>
       <Map>
@@ -86,7 +80,7 @@ function AdminScreen() {
           : null}
       </Map>
       <LogoutButton onPress={logout} />
-      <DetailsModal
+      <AdminModal
         modalArrow={modalArrow}
         setModalArrow={setModalArrow}
         modalHeight={modalHeight}

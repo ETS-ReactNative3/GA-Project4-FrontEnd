@@ -1,22 +1,13 @@
 import React from 'react';
-import {
-  Image,
-  TouchableOpacity,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import io from 'socket.io-client';
 
-import colors from './app/config/colors';
 import AdminScreen from './app/screens/AdminScreen';
 import LandingScreen from './app/screens/LandingScreen';
 import LoginScreen from './app/screens/LoginScreen';
-import Map from './app/components/Map';
 import DataProvider from './app/context/Context';
+import UserScreen from './app/screens/UserScreen';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = ({ navigation }) => {
@@ -35,6 +26,11 @@ const StackNavigator = ({ navigation }) => {
       <Stack.Screen
         name='AdminScreen'
         component={AdminScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='UserScreen'
+        component={UserScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -69,12 +65,3 @@ export default function App() {
     </DataProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    flex: 1,
-  },
-});

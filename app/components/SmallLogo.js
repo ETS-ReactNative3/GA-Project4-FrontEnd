@@ -21,7 +21,11 @@ export default function Logo() {
 }
 
 const styles = StyleSheet.create({
-  caption: { fontSize: 8, textAlign: 'left', color: colors.medium },
+  caption: {
+    fontSize: 10,
+    textAlign: 'left',
+    color: colors.medium_dark,
+  },
   container: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -30,7 +34,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    color: colors.medium,
+    color: colors.dark,
   },
   logo: {
     justifyContent: 'center',

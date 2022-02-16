@@ -1,7 +1,17 @@
 import React from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import Map from '../components/Map';
 
-function UserScreen(props) {
-  return <div></div>;
+export default function UserScreen() {
+  return (
+    <>
+      <Map />
+    </>
+  );
 }
-
-export default UserScreen;

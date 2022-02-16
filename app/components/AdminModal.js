@@ -13,7 +13,7 @@ import { retrieveUsername } from '../functions/token';
 import { useSelectedUserContext } from '../context/Context';
 import UserDetails from './UserDetails';
 
-export default function DetailsModal({
+export default function AdminModal({
   modalArrow,
   setModalArrow,
   modalHeight,

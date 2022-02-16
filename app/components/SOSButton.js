@@ -9,7 +9,7 @@ export default function SOSButton() {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('AdminScreen')}
+      onPress={() => navigation.navigate('UserScreen')}
       style={styles.touchable}
     >
       <View style={styles.button}>
