@@ -39,7 +39,8 @@ export default function Map({ children }) {
   // Request permissions right after starting the app
   const requestPermissions = async () => {
     const foreground = await Location.requestForegroundPermissionsAsync();
-    if (foreground.granted) await Location.requestBackgroundPermissionsAsync();
+    if (!foreground.granted) return;
+    await Location.requestBackgroundPermissionsAsync();
   };
 
   // Start location tracking in foreground

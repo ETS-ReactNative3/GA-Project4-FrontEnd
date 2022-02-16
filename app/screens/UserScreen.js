@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,7 +16,7 @@ export default function UserScreen() {
   const [modalVisible, setModalVisible] = useState(true);
 
   return (
-    <>
+    <KeyboardAvoidingView behavior='padding' style={styles.container}>
       <Map />
       <UserModal
         modalArrow={modalArrow}
@@ -25,6 +26,12 @@ export default function UserScreen() {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-    </>
+    </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

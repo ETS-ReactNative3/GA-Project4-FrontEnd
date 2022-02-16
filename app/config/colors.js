@@ -10,4 +10,5 @@ export default {
   light: '#dfdbdb',
   dark: '#0c0c0c',
   danger: '#ff5252',
+  placeholder: '#acacb5',
 };

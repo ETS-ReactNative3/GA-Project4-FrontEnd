@@ -69,8 +69,8 @@ export default function UserModal({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    borderRadius: 30,
-    paddingHorizontal: 20,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
     shadowColor: colors.medium,
     shadowOffset: { width: 0, height: -1 },
     shadowOpacity: 1,
@@ -83,7 +83,9 @@ const styles = StyleSheet.create({
   },
   scroll: {
     backgroundColor: 'white',
-    borderRadius: 30,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+    paddingHorizontal: 20,
     shadowColor: 'black',
     shadowOffset: { width: 2, height: 1 },
     shadowOpacity: 1,
