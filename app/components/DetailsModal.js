@@ -13,14 +13,19 @@ import { retrieveUsername } from '../functions/token';
 import { useSelectedUserContext } from '../context/Context';
 import UserDetails from './UserDetails';
 
-export default function DetailsModal() {
+export default function DetailsModal({
+  modalArrow,
+  setModalArrow,
+  modalHeight,
+  setModalHeight,
+  modalVisible,
+  setModalVisible,
+}) {
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
   const [username, setUsername] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalHeight, setModalHeight] = useState('20%');
-  const [modalArrow, setModalArrow] = useState('chevron-up');
 
   const handleModal = () => {
+    if (!selectedUser) return;
     if (!modalVisible) {
       setModalVisible(!modalVisible);
       setModalHeight('70%');

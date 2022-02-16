@@ -22,10 +22,14 @@ const styles = StyleSheet.create({
     width: 120,
     margin: 5,
   },
-  caption: { fontSize: 14, textAlign: 'left', color: colors.medium },
+  caption: {
+    fontSize: 14,
+    textAlign: 'left',
+    color: colors.medium_dark,
+  },
   header: {
     fontSize: 36,
-    color: colors.medium,
+    color: colors.dark,
   },
   logoWrapper: {
     alignItems: 'center',

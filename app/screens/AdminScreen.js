@@ -31,23 +31,10 @@ function AdminScreen() {
   const navigation = useNavigation();
   const [username, setUsername] = useState(null);
   const [usersInfo, setUsersInfo] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalHeight, setModalHeight] = useState('10%');
   const [modalArrow, setModalArrow] = useState('chevron-up');
+  const [modalHeight, setModalHeight] = useState('20%');
+  const [modalVisible, setModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
-
-  const handleModal = () => {
-    if (!modalVisible) {
-      setModalVisible(!modalVisible);
-      setModalHeight('70%');
-      setModalArrow('chevron-down');
-    }
-    if (modalVisible) {
-      setModalVisible(!modalVisible);
-      setModalHeight('10%');
-      setModalArrow('chevron-up');
-    }
-  };
 
   const getUsersInfo = async () => {
     const data = await getUsersInfoAPI();
@@ -69,7 +56,7 @@ function AdminScreen() {
     await removeToken();
     await removeUsername();
     setUsername(null);
-    getUsersInfo(null);
+    setUsersInfo(null);
     setSelectedUser(null);
     navigation.navigate('LoginScreen');
   };
@@ -88,48 +75,27 @@ function AdminScreen() {
                   key={index}
                   user={user}
                   index={index}
-                  openModal={() => setModalHeight('70%')}
+                  openModal={() => {
+                    setModalHeight('70%');
+                    setModalVisible(!modalVisible);
+                    setModalArrow('chevron-down');
+                  }}
                 />
               );
             })
           : null}
       </Map>
       <LogoutButton onPress={logout} />
-      {/* <View style={{ height: modalHeight }}>
-        <ScrollView
-          style={{
-            backgroundColor: colors.primarylite,
-            borderRadius: 30,
-          }}
-        >
-          <TouchableWithoutFeedback
-            onPress={() => {
-              handleModal();
-            }}
-          >
-            <Feather
-              name={modalArrow}
-              size={25}
-              style={{
-                textAlign: 'center',
-                padding: 5,
-                width: '100%',
-              }}
-            />
-          </TouchableWithoutFeedback>
-          <Text style={{ paddingHorizontal: 15, fontSize: 16 }}>
-            Hi {username}, let's make someone's day better today!
-          </Text>
-          <Text>{selectedUser ? selectedUser.name : null}</Text>
-        </ScrollView>
-      </View> */}
-      <DetailsModal />
+      <DetailsModal
+        modalArrow={modalArrow}
+        setModalArrow={setModalArrow}
+        modalHeight={modalHeight}
+        setModalHeight={setModalHeight}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </>
   );
 }
-
-// const styles = StyleSheet.create({
-//   logout: { position: 'absolute', right: 18, top: 45 },
-// });
 
 export default AdminScreen;
