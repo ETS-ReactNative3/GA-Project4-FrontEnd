@@ -11,7 +11,7 @@ import { useSelectedUserContext } from '../context/Context';
 import Detail from './Detail';
 import DetailTitle from './DetailTitle';
 
-export default function UserDetails(props) {
+export default function AdminModalDetails(props) {
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
   console.log(selectedUser);
   return (

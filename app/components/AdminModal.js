@@ -11,7 +11,8 @@ import { Feather } from '@expo/vector-icons';
 import colors from '../config/colors';
 import { retrieveUsername } from '../functions/token';
 import { useSelectedUserContext } from '../context/Context';
-import UserDetails from './UserDetails';
+import UserDetails from './AdminModalDetails';
+import AdminModalDetails from './AdminModalDetails';
 
 export default function AdminModal({
   modalArrow,
@@ -61,7 +62,7 @@ export default function AdminModal({
           Hi {username}, let's make someone's day better today!
         </Text>
         {selectedUser ? (
-          <UserDetails />
+          <AdminModalDetails />
         ) : (
           <Text style={styles.start}>Start by tapping on a pin</Text>
         )}
