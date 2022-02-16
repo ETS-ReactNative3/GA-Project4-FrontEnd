@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 import Map from '../components/Map';
-import UserMarker from '../components/UserMarker';
 import { useSelectedUserContext } from '../context/Context';
 import colors from '../config/colors';
 import {
@@ -21,6 +20,7 @@ import {
 } from '../functions/token';
 import LogoutButton from '../components/LogoutButton';
 import AdminModal from '../components/AdminModal';
+import ShowUserMarker from '../components/ShowUserMarker';
 
 function AdminScreen() {
   const navigation = useNavigation();
@@ -65,7 +65,7 @@ function AdminScreen() {
         {usersInfo
           ? usersInfo.map((user, index) => {
               return (
-                <UserMarker
+                <ShowUserMarker
                   key={index}
                   user={user}
                   index={index}

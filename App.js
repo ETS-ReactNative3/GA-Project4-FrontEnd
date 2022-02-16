@@ -19,6 +19,11 @@ const StackNavigator = ({ navigation }) => {
       }}
     >
       <Stack.Screen
+        name='UserScreen'
+        component={UserScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name='LoginScreen'
         component={LoginScreen}
         options={{ headerShown: false }}
@@ -26,11 +31,6 @@ const StackNavigator = ({ navigation }) => {
       <Stack.Screen
         name='AdminScreen'
         component={AdminScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name='UserScreen'
-        component={UserScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
