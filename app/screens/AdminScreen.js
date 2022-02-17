@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import io from 'socket.io-client';
 
 import Map from '../components/Map';
 import { useSelectedUserContext } from '../context/Context';
@@ -30,6 +31,18 @@ function AdminScreen() {
   const [modalHeight, setModalHeight] = useState('20%');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
+
+  const socket = io('http://localhost:3000', {
+    auth: {
+      token: 'abc',
+    },
+  });
+  socket.on('connect', () => {
+    console.log('form connected to io server');
+  });
+  socket.on('newUser', () => {
+    console.log('new user alert!');
+  });
 
   const checkToken = async () => {
     const token = await retrieveToken();

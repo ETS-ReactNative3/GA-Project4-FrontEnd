@@ -10,7 +10,7 @@ import DataProvider from './app/context/Context';
 import UserScreen from './app/screens/UserScreen';
 
 const Stack = createNativeStackNavigator();
-const StackNavigator = ({ navigation }) => {
+const StackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -26,7 +26,11 @@ const StackNavigator = ({ navigation }) => {
       <Stack.Screen
         name='UserScreen'
         component={UserScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerBackTitleVisible: true,
+          headerTransparent: true,
+          headerTitle: '',
+        }}
       />
       <Stack.Screen
         name='LoginScreen'
@@ -43,19 +47,19 @@ const StackNavigator = ({ navigation }) => {
 };
 
 export default function App() {
-  const socket = io('http://localhost:3000', {
-    auth: {
-      token: 'abc',
-    },
-  });
+  // const socket = io('http://localhost:3000', {
+  //   auth: {
+  //     token: 'abc',
+  //   },
+  // });
 
-  socket.on('connect', () => {
-    console.log('connected to io server');
-  });
+  // socket.on('connect', () => {
+  //   console.log('connected to io server');
+  // });
 
-  socket.on('hello', (msg) => {
-    console.log(msg);
-  });
+  // socket.on('hello', (msg) => {
+  //   console.log(msg);
+  // });
 
   return (
     <DataProvider>

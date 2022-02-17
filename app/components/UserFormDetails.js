@@ -10,11 +10,12 @@ import {
 import { Switch } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import io from 'socket.io-client';
 
 import colors from '../config/colors';
-import AppButton from '../components/Button';
+import AppButton from './Button';
 import DetailTitle from './DetailTitle';
-import ErrorMessage from '../components/ErrorMessage';
+import ErrorMessage from './ErrorMessage';
 import UserTextInput from './UserTextInput';
 import { useUserLocationContext } from '../context/Context';
 import { postUserAPI } from '../functions/ApiFunctions';
@@ -26,18 +27,37 @@ const validationSchema = Yup.object().shape({
   age: Yup.number().required().max(120).label('Age'),
   safety: Yup.number().required().min(0).max(10).label('This'),
   emotion: Yup.string().required().label('This'),
-  situation: Yup.string().required().label('This'),
+  situation: Yup.string().label('This'),
   perpetrator: Yup.string().required().label('This'),
   companion: Yup.boolean().required().label('This'),
 });
 
-export default function UserModalDetails(props) {
-  const [value, setValue] = useState(null);
+export default function UserFormDetails() {
   const [UserLocation, setUserLocation] = useUserLocationContext();
   const { latitude, longitude } = UserLocation;
 
+  const socket = io('http://localhost:3000', {
+    auth: {
+      token: 'abc',
+    },
+  });
+  socket.on('connect', () => {
+    console.log('connected to io server');
+  });
+
+  const submitForm = async (values) => {
+    const userInfo = { ...values, latitude, longitude };
+    const userID = await postUserAPI(userInfo);
+    console.log('submit form');
+    socket.emit('submitForm');
+  };
+
   return (
     <View style={styles.form}>
+      <Text style={styles.welcome}>
+        Hi, please fill up the details below and we will be with you as soon as
+        we can!
+      </Text>
       <Formik
         initialValues={{
           name: '',
@@ -50,9 +70,9 @@ export default function UserModalDetails(props) {
           perpetrator: '',
           companion: false,
         }}
-        onSubmit={async (values) => {
-          const userInfo = { ...values, latitude, longitude };
-          await postUserAPI(userInfo);
+        onSubmit={(values) => {
+          console.log('submit button pressed');
+          submitForm(values);
         }}
         validationSchema={validationSchema}
       >
@@ -268,5 +288,10 @@ const styles = StyleSheet.create({
     color: colors.medium_dark,
     fontSize: 18,
     marginLeft: 10,
+  },
+  welcome: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    paddingBottom: 18,
   },
 });

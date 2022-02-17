@@ -10,9 +10,8 @@ import { Feather } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 import { retrieveUsername } from '../functions/ApiFunctions';
-import { useSelectedUserContext } from '../context/Context';
-import AdminModalDetails from './AdminModalDetails';
-import UserModalDetails from './UserModalDetails';
+import UserFormDetails from './UserFormDetails';
+import UserFormSubmitted from './UserFormSubmitted';
 
 export default function UserModal({
   modalArrow,
@@ -56,11 +55,7 @@ export default function UserModal({
         >
           <Feather name={modalArrow} size={25} style={styles.icon} />
         </TouchableWithoutFeedback>
-        <Text style={styles.welcome}>
-          Hi, please fill up the details below and we will be with you as soon
-          as we can!
-        </Text>
-        <UserModalDetails />
+        <UserFormDetails />
       </ScrollView>
     </View>
   );
@@ -93,10 +88,5 @@ const styles = StyleSheet.create({
   },
   start: {
     fontSize: 20,
-  },
-  welcome: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    paddingBottom: 18,
   },
 });
