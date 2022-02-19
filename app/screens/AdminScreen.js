@@ -12,13 +12,13 @@ import io from 'socket.io-client';
 import Map from '../components/Map';
 import { useSelectedUserContext } from '../context/Context';
 import colors from '../config/colors';
+import { getUsersInfoAPI } from '../functions/apiFunctions';
 import {
-  getUsersInfoAPI,
   removeToken,
   removeUsername,
   retrieveToken,
   retrieveUsername,
-} from '../functions/ApiFunctions';
+} from '../functions/secureStoreFunctions';
 import LogoutButton from '../components/LogoutButton';
 import AdminModal from '../components/AdminModal';
 import ShowUserMarker from '../components/ShowUserMarker';
@@ -38,7 +38,7 @@ function AdminScreen() {
     },
   });
   socket.on('connect', () => {
-    console.log('form connected to io server');
+    console.log('admin connected to io server');
   });
   socket.on('newUser', () => {
     console.log('new user alert!');
@@ -47,6 +47,7 @@ function AdminScreen() {
   const checkToken = async () => {
     const token = await retrieveToken();
     if (!token) {
+      console.log('cannot retrieve token');
       return navigation.navigate('LoginScreen');
     }
     const username = await retrieveUsername();

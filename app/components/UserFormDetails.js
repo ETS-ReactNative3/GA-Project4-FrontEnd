@@ -18,7 +18,7 @@ import DetailTitle from './DetailTitle';
 import ErrorMessage from './ErrorMessage';
 import UserTextInput from './UserTextInput';
 import { useUserLocationContext } from '../context/Context';
-import { postUserAPI } from '../functions/ApiFunctions';
+import { postUserAPI } from '../functions/apiFunctions';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label('Name'),
@@ -42,7 +42,7 @@ export default function UserFormDetails() {
     },
   });
   socket.on('connect', () => {
-    console.log('connected to io server');
+    console.log('user connected to io server');
   });
 
   const submitForm = async (values) => {

@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo-secure-store';
+import { retrieveToken } from './secureStoreFunctions';
 
 const getTokenAPI = async (credentials) => {
   try {
@@ -67,30 +67,4 @@ const postUserAPI = async (userInfo) => {
   }
 };
 
-const removeToken = async () => {
-  await SecureStore.deleteItemAsync('token');
-};
-
-const removeUsername = async () => {
-  await SecureStore.deleteItemAsync('username');
-};
-
-const retrieveToken = async () => {
-  const token = await SecureStore.getItemAsync('token');
-  return token;
-};
-
-const retrieveUsername = async () => {
-  const username = await SecureStore.getItemAsync('username');
-  return username;
-};
-
-export {
-  getTokenAPI,
-  getUsersInfoAPI,
-  postUserAPI,
-  removeToken,
-  removeUsername,
-  retrieveToken,
-  retrieveUsername,
-};
+export { getTokenAPI, getUsersInfoAPI, postUserAPI };

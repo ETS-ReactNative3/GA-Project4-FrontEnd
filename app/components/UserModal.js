@@ -9,7 +9,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 
 import colors from '../config/colors';
-import { retrieveUsername } from '../functions/ApiFunctions';
+import { retrieveUsername } from '../functions/secureStoreFunctions';
 import UserFormDetails from './UserFormDetails';
 import UserFormSubmitted from './UserFormSubmitted';
 
