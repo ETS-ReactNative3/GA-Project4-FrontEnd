@@ -4,6 +4,9 @@ const removeToken = async () => {
   await SecureStore.deleteItemAsync('token');
 };
 
+const removeUserID = async () => {
+  await SecureStore.deleteItemAsync('userID');
+};
 const removeUsername = async () => {
   await SecureStore.deleteItemAsync('username');
 };
@@ -29,6 +32,7 @@ const setUserID = async (userID) => {
 
 export {
   removeToken,
+  removeUserID,
   removeUsername,
   retrieveToken,
   retrieveUserID,

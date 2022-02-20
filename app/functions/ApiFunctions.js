@@ -1,6 +1,20 @@
 import * as SecureStore from 'expo-secure-store';
 import { retrieveToken } from './secureStoreFunctions';
 
+const cancelRequestAPI = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:4000/api/user/cancel/${id}`, {
+      method: 'PATCH',
+    });
+    if (res.status !== 200) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('error', error);
+  }
+};
+
 const closeCaseAPI = async (id) => {
   const token = await retrieveToken();
   try {
@@ -125,6 +139,7 @@ const updateUserInfoAPI = async (userInfo) => {
 };
 
 export {
+  cancelRequestAPI,
   closeCaseAPI,
   getTokenAPI,
   getUserInfoAPI,

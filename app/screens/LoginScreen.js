@@ -18,6 +18,7 @@ const validationSchema = Yup.object().shape({
 export default function LoginScreen() {
   const navigation = useNavigation();
   const [credentialErr, setCredentialErr] = useState(false);
+  // const [initialValues, setnitialValues] = useState(initialState)
 
   const login = async (credentials) => {
     const loggedIn = await getTokenAPI(credentials);
@@ -31,8 +32,9 @@ export default function LoginScreen() {
         <BigLogo />
         <Formik
           initialValues={{ username: '', password: '' }}
-          onSubmit={(values) => {
+          onSubmit={(values, { resetForm }) => {
             login(values);
+            resetForm(initialValues);
           }}
           validationSchema={validationSchema}
         >

@@ -9,11 +9,16 @@ import AppButton from './Button';
 import ErrorMessage from './ErrorMessage';
 import { useUserLocationContext } from '../context/Context';
 import {
+  cancelRequestAPI,
   getUserInfoAPI,
   postUserAPI,
   updateUserInfoAPI,
 } from '../functions/apiFunctions';
-import { retrieveUserID, setUserID } from '../functions/secureStoreFunctions';
+import {
+  removeUserID,
+  retrieveUserID,
+  setUserID,
+} from '../functions/secureStoreFunctions';
 import FormField from './FormField';
 import FormFieldTitle from './FormFieldTitle';
 import UserFormIntro from './UserFormIntro';
@@ -35,7 +40,7 @@ export default function UserForm({ userExist }) {
   const [UserLocation, setUserLocation] = useUserLocationContext();
   const { latitude, longitude } = UserLocation;
   const [editable, setEditable] = useState(true);
-  const [userInfo, setUserInfo] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
   const [initialValues, setInitialValues] = useState({
     name: null,
     id: null,
@@ -48,7 +53,7 @@ export default function UserForm({ userExist }) {
     companion: false,
   });
 
-  console.log('initial values', initialValues);
+  console.log('userInfo', userInfo);
 
   const submitForm = async (values) => {
     const info = { ...values, latitude, longitude };
@@ -57,7 +62,7 @@ export default function UserForm({ userExist }) {
       if (!res) return;
       console.log(res);
       await setUserID(`${res}`);
-      setUserInfo(true);
+      setUserInfo(info);
       setInitialValues(info);
     } else {
       await updateUserInfoAPI(info);
@@ -69,13 +74,13 @@ export default function UserForm({ userExist }) {
     if (!userExist) return console.log('user dont exist');
     const userID = await retrieveUserID();
     const info = await getUserInfoAPI(userID);
-    setUserInfo(true);
+    setUserInfo(info);
     setInitialValues(info);
     setEditable(false);
     console.log('get user info', info.name);
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     getUserInfo();
   }, [userExist]);
 
@@ -101,7 +106,6 @@ export default function UserForm({ userExist }) {
                 editable={editable}
                 name='name'
                 textContentType='username'
-                value={initialValues['name']}
               />
             </View>
 
@@ -224,6 +228,19 @@ export default function UserForm({ userExist }) {
           }}
         />
       )}
+      {userInfo ? (
+        <AppButton
+          title='Cancel Request'
+          onPress={async () => {
+            await cancelRequestAPI(userInfo.id);
+            await removeUserID();
+            setUserInfo(null);
+            setEditable(true);
+            const ID = await retrieveUserID();
+            console.log(ID);
+          }}
+        />
+      ) : null}
     </View>
   );
 }

@@ -10,7 +10,11 @@ import { Feather } from '@expo/vector-icons';
 import * as SecureStore from 'expo-secure-store';
 
 import colors from '../config/colors';
-import { retrieveUserID, setUserID } from '../functions/secureStoreFunctions';
+import {
+  removeUserID,
+  retrieveUserID,
+  setUserID,
+} from '../functions/secureStoreFunctions';
 import UserFormSubmitted from './UserFormSubmitted';
 import UserForm from './UserForm';
 import { getUserInfoAPI } from '../functions/apiFunctions';
@@ -39,7 +43,6 @@ export default function UserModal({
   };
 
   const checkUserStore = async () => {
-    await setUserID('T1234568A');
     const userID = await retrieveUserID();
     console.log(userID);
     if (!userID) return;
