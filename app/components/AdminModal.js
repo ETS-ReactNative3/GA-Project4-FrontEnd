@@ -61,7 +61,7 @@ export default function AdminModal({
           Hi {username}, let's make someone's day better today!
         </Text>
         {selectedUser ? (
-          <AdminModalDetails />
+          <AdminModalDetails handleModal={handleModal} />
         ) : (
           <Text style={styles.start}>Start by tapping on a pin</Text>
         )}

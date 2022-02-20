@@ -1,8 +1,12 @@
 import React, { createContext, useContext, useState } from 'react';
 
+const OpenCasesContext = createContext();
 const SelectedUserContext = createContext();
 const UserLocationContext = createContext();
 
+export function useOpenCasesContext() {
+  return useContext(OpenCasesContext);
+}
 export function useSelectedUserContext() {
   return useContext(SelectedUserContext);
 }
@@ -11,6 +15,7 @@ export function useUserLocationContext() {
 }
 
 export default function DataProvider({ children }) {
+  const [openCases, setOpenCases] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [UserLocation, setUserLocation] = useState({
     latitude: 40.7128,
@@ -19,10 +24,12 @@ export default function DataProvider({ children }) {
     longitudeDelta: 0.01,
   });
   return (
-    <SelectedUserContext.Provider value={[selectedUser, setSelectedUser]}>
-      <UserLocationContext.Provider value={[UserLocation, setUserLocation]}>
-        {children}
-      </UserLocationContext.Provider>
-    </SelectedUserContext.Provider>
+    <OpenCasesContext.Provider value={[openCases, setOpenCases]}>
+      <SelectedUserContext.Provider value={[selectedUser, setSelectedUser]}>
+        <UserLocationContext.Provider value={[UserLocation, setUserLocation]}>
+          {children}
+        </UserLocationContext.Provider>
+      </SelectedUserContext.Provider>
+    </OpenCasesContext.Provider>
   );
 }

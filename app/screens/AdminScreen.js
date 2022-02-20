@@ -10,7 +10,10 @@ import {
 import io from 'socket.io-client';
 
 import Map from '../components/Map';
-import { useSelectedUserContext } from '../context/Context';
+import {
+  useOpenCasesContext,
+  useSelectedUserContext,
+} from '../context/Context';
 import colors from '../config/colors';
 import { getUsersInfoAPI } from '../functions/apiFunctions';
 import {
@@ -34,11 +37,10 @@ socket.on('connect', () => {
 
 function AdminScreen() {
   const navigation = useNavigation();
-  const [username, setUsername] = useState(null);
-  const [usersInfo, setUsersInfo] = useState(null);
   const [modalArrow, setModalArrow] = useState('chevron-up');
   const [modalHeight, setModalHeight] = useState('20%');
   const [modalVisible, setModalVisible] = useState(false);
+  const [openCases, setOpenCases] = useOpenCasesContext();
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
 
   socket.on('newUser', async () => {
@@ -52,24 +54,22 @@ function AdminScreen() {
       console.log('cannot retrieve token');
       return navigation.navigate('LoginScreen');
     }
-    const username = await retrieveUsername();
-    setUsername(username);
   };
 
   const getUsersInfo = async () => {
     const data = await getUsersInfoAPI();
     if (!data) return;
-    setUsersInfo(data);
+    setOpenCases(data);
   };
 
   const logout = async () => {
     await removeToken();
     await removeUsername();
-    setUsername(null);
-    setUsersInfo(null);
+    setOpenCases(null);
     setSelectedUser(null);
     navigation.navigate('LoginScreen');
   };
+  // console.log(usersInfo);
 
   useEffect(() => {
     checkToken();
@@ -78,8 +78,8 @@ function AdminScreen() {
   return (
     <>
       <Map>
-        {usersInfo
-          ? usersInfo.map((user, index) => {
+        {openCases
+          ? openCases.map((user, index) => {
               return (
                 <ShowUserMarker
                   key={index}

@@ -1,6 +1,25 @@
 import * as SecureStore from 'expo-secure-store';
 import { retrieveToken } from './secureStoreFunctions';
 
+const closeCaseAPI = async (id) => {
+  const token = await retrieveToken();
+  try {
+    const res = await fetch(`http://localhost:4000/api/user/closecase/${id}`, {
+      method: 'PATCH',
+      headers: {
+        authorization: token,
+      },
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      return false;
+    }
+    return data;
+  } catch (error) {
+    console.error('error', error);
+  }
+};
+
 const getTokenAPI = async (credentials) => {
   try {
     const res = await fetch('http://localhost:4000/api/auth', {
@@ -16,6 +35,7 @@ const getTokenAPI = async (credentials) => {
       return false;
     }
     const { token, username } = await res.json();
+    console.log(token);
     await SecureStore.setItemAsync('token', token);
     await SecureStore.setItemAsync('username', username);
 
@@ -30,11 +50,6 @@ const getUserInfoAPI = async (id) => {
   try {
     const res = await fetch(`http://localhost:4000/api/user/${id}`, {
       method: 'GET',
-      // headers: {
-      //   authorization: token,
-      //   Accept: 'application/json',
-      //   'Content-Type': 'application/json',
-      // },
     });
     const data = await res.json();
     if (res.status !== 200) {
@@ -57,7 +72,7 @@ const getUsersInfoAPI = async () => {
         'Content-Type': 'application/json',
       },
     });
-    const data = await res.data;
+    const data = await res.json();
     if (res.status !== 200) {
       return false;
     }
@@ -110,6 +125,7 @@ const updateUserInfoAPI = async (userInfo) => {
 };
 
 export {
+  closeCaseAPI,
   getTokenAPI,
   getUserInfoAPI,
   getUsersInfoAPI,

@@ -8,6 +8,7 @@ export default function FormFieldTitle({ children, style }) {
 
 const styles = StyleSheet.create({
   text: {
+    alignSelf: 'center',
     color: colors.medium_dark,
     fontSize: 20,
     paddingVertical: 5,
