@@ -1,3 +1,4 @@
+import * as SecureStore from 'expo-secure-store';
 import { retrieveToken } from './secureStoreFunctions';
 
 const getTokenAPI = async (credentials) => {
@@ -24,6 +25,27 @@ const getTokenAPI = async (credentials) => {
   }
 };
 
+const getUserInfoAPI = async (id) => {
+  const token = await retrieveToken();
+  try {
+    const res = await fetch(`http://localhost:4000/api/user/${id}`, {
+      method: 'GET',
+      // headers: {
+      //   authorization: token,
+      //   Accept: 'application/json',
+      //   'Content-Type': 'application/json',
+      // },
+    });
+    const data = await res.json();
+    if (res.status !== 200) {
+      return false;
+    }
+    return data;
+  } catch (error) {
+    console.error('error', error);
+  }
+};
+
 const getUsersInfoAPI = async () => {
   const token = await retrieveToken();
   try {
@@ -35,7 +57,7 @@ const getUsersInfoAPI = async () => {
         'Content-Type': 'application/json',
       },
     });
-    const data = await res.json();
+    const data = await res.data;
     if (res.status !== 200) {
       return false;
     }
@@ -60,11 +82,37 @@ const postUserAPI = async (userInfo) => {
       return false;
     }
     const data = await res.json();
-    console.log(data);
-    return true;
+    // console.log(data);
+    return data;
   } catch (error) {
     console.error(error);
   }
 };
 
-export { getTokenAPI, getUsersInfoAPI, postUserAPI };
+const updateUserInfoAPI = async (userInfo) => {
+  const token = await retrieveToken();
+  try {
+    const res = await fetch('http://localhost:4000/api/user/edit', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userInfo),
+    });
+    if (res.status !== 200) {
+      return false;
+    }
+    return console.log(res.message);
+  } catch (error) {
+    console.error('error', error);
+  }
+};
+
+export {
+  getTokenAPI,
+  getUserInfoAPI,
+  getUsersInfoAPI,
+  postUserAPI,
+  updateUserInfoAPI,
+};

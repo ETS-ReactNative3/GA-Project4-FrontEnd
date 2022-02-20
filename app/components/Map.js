@@ -10,6 +10,24 @@ import { useUserLocationContext } from '../context/Context';
 const LOCATION_TASK = 'LOCATION_TASK';
 let foregroundSubscription = null;
 
+// Define the background task for location tracking
+TaskManager.defineTask(LOCATION_TASK, ({ data, error }) => {
+  if (error) {
+    return console.error(error);
+  }
+  if (data) {
+    const { locations } = data;
+    const location = locations[0];
+    if (location) {
+      // console.log('Tracking location in background');
+      const { latitude, longitude } = location.coords;
+      // setUserLocation((prevUserLocation) => {
+      //   return { ...prevUserLocation, latitude, longitude };
+      // });
+    }
+  }
+});
+
 export default function Map({ children }) {
   // const [position, setUserLocation] = useState({
   //   latitude: 40.7128,
@@ -18,24 +36,6 @@ export default function Map({ children }) {
   //   longitudeDelta: 0.01,
   // });
   const [UserLocation, setUserLocation] = useUserLocationContext();
-
-  // Define the background task for location tracking
-  TaskManager.defineTask(LOCATION_TASK, ({ data, error }) => {
-    if (error) {
-      return console.error(error);
-    }
-    if (data) {
-      const { locations } = data;
-      const location = locations[0];
-      if (location) {
-        // console.log('Tracking location in background');
-        const { latitude, longitude } = location.coords;
-        setUserLocation((prevUserLocation) => {
-          return { ...prevUserLocation, latitude, longitude };
-        });
-      }
-    }
-  });
 
   // Request permissions right after starting the app
   const requestPermissions = async () => {

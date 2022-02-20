@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import AppButton from '../components/Button';
 import BigLogo from '../components/BigLogo';
 import ErrorMessage from '../components/ErrorMessage';
-import { getTokenAPI } from '../functions/ApiFunctions';
+import { getTokenAPI } from '../functions/apiFunctions';
 import LoginTextInput from '../components/LoginTextInput';
 
 const validationSchema = Yup.object().shape({

@@ -7,11 +7,13 @@ import {
   View,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import * as SecureStore from 'expo-secure-store';
 
 import colors from '../config/colors';
-import { retrieveUsername } from '../functions/secureStoreFunctions';
-import UserFormDetails from './UserFormDetails';
+import { retrieveUserID, setUserID } from '../functions/secureStoreFunctions';
 import UserFormSubmitted from './UserFormSubmitted';
+import UserForm from './UserForm';
+import { getUserInfoAPI } from '../functions/apiFunctions';
 
 export default function UserModal({
   modalArrow,
@@ -21,7 +23,7 @@ export default function UserModal({
   modalVisible,
   setModalVisible,
 }) {
-  const [username, setUsername] = useState(null);
+  const [userExist, setUserExist] = useState(false);
 
   const handleModal = () => {
     if (!modalVisible) {
@@ -31,18 +33,22 @@ export default function UserModal({
     }
     if (modalVisible) {
       setModalVisible(!modalVisible);
-      setModalHeight('18%');
+      setModalHeight('20%');
       setModalArrow('chevron-up');
     }
   };
 
-  const getUsername = async () => {
-    const username = await retrieveUsername();
-    setUsername(username);
+  const checkUserStore = async () => {
+    await setUserID('T1234568A');
+    const userID = await retrieveUserID();
+    console.log(userID);
+    if (!userID) return;
+    setUserExist(true);
   };
+  console.log(userExist);
 
-  useEffect(() => {
-    getUsername();
+  useEffect(async () => {
+    checkUserStore();
   }, []);
 
   return (
@@ -55,7 +61,7 @@ export default function UserModal({
         >
           <Feather name={modalArrow} size={25} style={styles.icon} />
         </TouchableWithoutFeedback>
-        <UserFormDetails />
+        <UserForm userExist={userExist} />
       </ScrollView>
     </View>
   );

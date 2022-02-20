@@ -13,9 +13,25 @@ const retrieveToken = async () => {
   return token;
 };
 
+const retrieveUserID = async () => {
+  const userID = await SecureStore.getItemAsync('userID');
+  return userID;
+};
+
 const retrieveUsername = async () => {
   const username = await SecureStore.getItemAsync('username');
   return username;
 };
 
-export { removeToken, removeUsername, retrieveToken, retrieveUsername };
+const setUserID = async (userID) => {
+  await SecureStore.setItemAsync('userID', userID);
+};
+
+export {
+  removeToken,
+  removeUsername,
+  retrieveToken,
+  retrieveUserID,
+  retrieveUsername,
+  setUserID,
+};

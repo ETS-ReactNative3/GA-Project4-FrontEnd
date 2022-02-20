@@ -9,7 +9,7 @@ import {
 
 import { useSelectedUserContext } from '../context/Context';
 import Detail from './Detail';
-import DetailTitle from './DetailTitle';
+import FormFieldTitle from './FormFieldTitle';
 
 export default function AdminModalDetails(props) {
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
@@ -17,23 +17,23 @@ export default function AdminModalDetails(props) {
   return (
     <View>
       <View style={styles.div}>
-        <DetailTitle>Name:</DetailTitle>
+        <FormFieldTitle>Name:</FormFieldTitle>
         <Detail>{selectedUser.name}</Detail>
       </View>
       <View style={styles.div}>
-        <DetailTitle>Gender:</DetailTitle>
+        <FormFieldTitle>Gender:</FormFieldTitle>
         <Detail>{selectedUser.gender}</Detail>
       </View>
       <View style={styles.div}>
-        <DetailTitle>Age:</DetailTitle>
+        <FormFieldTitle>Age:</FormFieldTitle>
         <Detail>{selectedUser.age}</Detail>
       </View>
       <View style={styles.div}>
-        <DetailTitle>Perpetrator:</DetailTitle>
+        <FormFieldTitle>Perpetrator:</FormFieldTitle>
         <Detail>{selectedUser.perpetrator}</Detail>
       </View>
       <View style={styles.div}>
-        <DetailTitle>Safety Level:</DetailTitle>
+        <FormFieldTitle>Safety Level:</FormFieldTitle>
         <Detail>{selectedUser.safety}</Detail>
       </View>
     </View>

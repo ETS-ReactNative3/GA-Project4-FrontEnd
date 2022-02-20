@@ -5,11 +5,11 @@ import { useSelectedUserContext } from '../context/Context';
 const safetyScale = (safetyLevel) => {
   switch (true) {
     case safetyLevel <= 4:
-      return '#fbc101';
+      return '#ec100c';
     case safetyLevel > 4 && safetyLevel <= 7:
       return '#f95b00';
     case safetyLevel > 7:
-      return '#ec100c';
+      return '#fbc101';
     default:
       return 'grey';
   }

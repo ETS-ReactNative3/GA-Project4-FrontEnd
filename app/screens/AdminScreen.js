@@ -23,6 +23,15 @@ import LogoutButton from '../components/LogoutButton';
 import AdminModal from '../components/AdminModal';
 import ShowUserMarker from '../components/ShowUserMarker';
 
+const socket = io('http://localhost:3000', {
+  auth: {
+    token: 'abc',
+  },
+});
+socket.on('connect', () => {
+  console.log('admin connected to io server');
+});
+
 function AdminScreen() {
   const navigation = useNavigation();
   const [username, setUsername] = useState(null);
@@ -32,16 +41,9 @@ function AdminScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
 
-  const socket = io('http://localhost:3000', {
-    auth: {
-      token: 'abc',
-    },
-  });
-  socket.on('connect', () => {
-    console.log('admin connected to io server');
-  });
-  socket.on('newUser', () => {
-    console.log('new user alert!');
+  socket.on('newUser', async () => {
+    await getUsersInfo();
+    console.log('receive new user V99999');
   });
 
   const checkToken = async () => {
