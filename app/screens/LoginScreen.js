@@ -34,7 +34,7 @@ export default function LoginScreen() {
           initialValues={{ username: '', password: '' }}
           onSubmit={(values, { resetForm }) => {
             login(values);
-            resetForm(initialValues);
+            resetForm();
           }}
           validationSchema={validationSchema}
         >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import SOSButton from '../components/SOSButton';
@@ -11,19 +11,30 @@ export default function LandingScreen() {
 
   return (
     <ScreenWithLogo>
+      <View>
+        <Text style={styles.text}>Feeling overwhelmed? Let us help you</Text>
+      </View>
+
       <View style={styles.container}>
         <SOSButton />
       </View>
-      <Button
-        title='admin login'
-        onPress={() => navigation.navigate('LoginScreen')}
-      />
+      <View style={styles.adminLogin}>
+        <Button
+          title='admin login'
+          onPress={() => navigation.navigate('LoginScreen')}
+        />
+      </View>
     </ScreenWithLogo>
   );
 }
 
 const styles = StyleSheet.create({
+  adminLogin: { alignSelf: 'center', position: 'absolute', bottom: 5 },
   container: {
     alignItems: 'center',
+  },
+  text: {
+    color: colors.medium_dark,
+    fontSize: 20,
   },
 });

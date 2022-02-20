@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
   container: {
     // position: 'absolute',
     // top: 140,
+    flex: 1,
     width: '100%',
+    // backgroundColor: 'lightgrey',
   },
 });

@@ -22,7 +22,7 @@ export default function Logo() {
 
 const styles = StyleSheet.create({
   caption: {
-    fontSize: 10,
+    fontSize: 12,
     textAlign: 'left',
     color: colors.medium_dark,
   },
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    fontSize: 20,
+    fontSize: 24,
     color: colors.dark,
   },
   logo: {

@@ -53,14 +53,12 @@ export default function UserForm({ userExist }) {
     companion: false,
   });
 
-  console.log('initialvalues', initialValues);
-
   const submitForm = async (values) => {
     const info = { ...values, latitude, longitude };
     if (!userInfo) {
       const res = await postUserAPI(info);
       if (!res) return;
-      console.log(res);
+      console.log('userID', res);
       await setUserID(res);
       setUserInfo(info);
       setInitialValues(info);
@@ -75,17 +73,20 @@ export default function UserForm({ userExist }) {
     const userID = await retrieveUserID();
     console.log('usesrID', userID);
     const info = await getUserInfoAPI(userID);
-    console.log('please', info);
+    if (!info) return await removeUserID();
+    console.log('getuserinfoAPI', info);
     setUserInfo(info);
     setEditable(false);
     setInitialValues(info);
     console.log('get user info', info.name);
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     getUserInfo();
-    // await removeUserID();
+    // removeUserID();
   }, [userExist]);
+
+  console.log('initialvalues', initialValues);
 
   return (
     <View style={styles.form}>
@@ -109,6 +110,7 @@ export default function UserForm({ userExist }) {
                 editable={editable}
                 name='name'
                 textContentType='username'
+                value={values.name}
               />
             </View>
 
@@ -119,6 +121,7 @@ export default function UserForm({ userExist }) {
                 autoCapitalize='characters'
                 editable={editable}
                 name='id'
+                value={values.id}
               />
             </View>
 
@@ -130,6 +133,7 @@ export default function UserForm({ userExist }) {
                 edit={editable}
                 name='gender'
                 placeholder='F/M'
+                value={values.gender}
               />
             </View>
 
@@ -140,6 +144,7 @@ export default function UserForm({ userExist }) {
                 editable={editable}
                 keyboardType='number-pad'
                 name='age'
+                value={userInfo ? `${values.age}` : ''}
               />
             </View>
 
@@ -152,6 +157,7 @@ export default function UserForm({ userExist }) {
                 editable={editable}
                 name='perpetrator'
                 placeholder='i.e. friend, self, spouse, stranger, parent'
+                value={values.perpetrator}
               />
             </View>
 
@@ -164,6 +170,7 @@ export default function UserForm({ userExist }) {
                 editable={editable}
                 name='emotion'
                 placeholder='i.e. angry, depressed, scared, suicidal'
+                value={values.emotion}
               />
             </View>
 
@@ -181,6 +188,7 @@ export default function UserForm({ userExist }) {
                 keyboardType='number-pad'
                 name='safety'
                 placeholder='0-10'
+                value={userInfo ? `${values.safety}` : ''}
               />
             </View>
 
@@ -215,6 +223,7 @@ export default function UserForm({ userExist }) {
                 editable={editable}
                 multiline
                 name='situation'
+                value={values.situation}
               />
             </View>
 
@@ -236,12 +245,13 @@ export default function UserForm({ userExist }) {
         <AppButton
           title='Cancel Request'
           onPress={async () => {
-            await cancelRequestAPI(userInfo.id);
-            await removeUserID();
-            setUserInfo(null);
-            setEditable(true);
-            const ID = await retrieveUserID();
-            console.log(ID);
+            // await cancelRequestAPI(userInfo.id);
+            // await removeUserID();
+            // setUserInfo(null);
+            // setEditable(true);
+            // const ID = await retrieveUserID();
+            // console.log(ID);
+            console.log('onpress', initialValues);
           }}
         />
       ) : null}
