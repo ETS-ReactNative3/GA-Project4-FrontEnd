@@ -53,7 +53,7 @@ export default function UserForm({ userExist }) {
     companion: false,
   });
 
-  console.log('userInfo', userInfo);
+  console.log('initialvalues', initialValues);
 
   const submitForm = async (values) => {
     const info = { ...values, latitude, longitude };
@@ -61,7 +61,7 @@ export default function UserForm({ userExist }) {
       const res = await postUserAPI(info);
       if (!res) return;
       console.log(res);
-      await setUserID(`${res}`);
+      await setUserID(res);
       setUserInfo(info);
       setInitialValues(info);
     } else {
@@ -73,15 +73,18 @@ export default function UserForm({ userExist }) {
   const getUserInfo = async () => {
     if (!userExist) return console.log('user dont exist');
     const userID = await retrieveUserID();
+    console.log('usesrID', userID);
     const info = await getUserInfoAPI(userID);
+    console.log('please', info);
     setUserInfo(info);
-    setInitialValues(info);
     setEditable(false);
+    setInitialValues(info);
     console.log('get user info', info.name);
   };
 
   useEffect(async () => {
     getUserInfo();
+    // await removeUserID();
   }, [userExist]);
 
   return (
@@ -191,6 +194,7 @@ export default function UserForm({ userExist }) {
                   onValueChange={() =>
                     setFieldValue('companion', !values.companion)
                   }
+                  value={values.companion}
                 />
                 <Text style={styles.text}>
                   {values.companion ? 'Yes' : 'No'}

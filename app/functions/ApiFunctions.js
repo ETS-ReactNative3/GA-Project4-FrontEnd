@@ -111,8 +111,8 @@ const postUserAPI = async (userInfo) => {
       return false;
     }
     const data = await res.json();
-    // console.log(data);
-    return data;
+    console.log(data);
+    return data.id;
   } catch (error) {
     console.error(error);
   }
