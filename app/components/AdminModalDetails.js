@@ -12,7 +12,7 @@ import AppButton from './Button';
 export default function AdminModalDetails({ handleModal }) {
   const [openCases, setOpenCases] = useOpenCasesContext();
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
-  console.log(selectedUser);
+  // console.log(selectedUser);
 
   const handleCloseCase = async () => {
     await closeCaseAPI(selectedUser.id);

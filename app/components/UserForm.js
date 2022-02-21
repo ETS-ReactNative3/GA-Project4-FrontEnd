@@ -58,7 +58,7 @@ export default function UserForm({ userExist }) {
     if (!userInfo) {
       const res = await postUserAPI(info);
       if (!res) return;
-      console.log('userID', res);
+      // console.log('userID', res);
       await setUserID(res);
       setUserInfo(info);
       setInitialValues(info);
@@ -71,10 +71,10 @@ export default function UserForm({ userExist }) {
   const getUserInfo = async () => {
     if (!userExist) return console.log('user dont exist');
     const userID = await retrieveUserID();
-    console.log('usesrID', userID);
+    // console.log('usesrID', userID);
     const info = await getUserInfoAPI(userID);
     if (!info) return await removeUserID();
-    console.log('getuserinfoAPI', info);
+    // console.log('getuserinfoAPI', info);
     setUserInfo(info);
     setEditable(false);
     setInitialValues(info);
@@ -84,9 +84,10 @@ export default function UserForm({ userExist }) {
   useEffect(() => {
     getUserInfo();
     // removeUserID();
+    // setUserID('T1234580L');
   }, [userExist]);
 
-  console.log('initialvalues', initialValues);
+  // console.log('initialvalues', initialValues);
 
   return (
     <View style={styles.form}>

@@ -49,7 +49,7 @@ const getTokenAPI = async (credentials) => {
       return false;
     }
     const { token, username } = await res.json();
-    console.log(token);
+    // console.log(token);
     await SecureStore.setItemAsync('token', token);
     await SecureStore.setItemAsync('username', username);
 
@@ -111,8 +111,30 @@ const postUserAPI = async (userInfo) => {
       return false;
     }
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     return data.id;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const updateUserLocationAPI = async (id, latitude, longitude) => {
+  try {
+    const res = await fetch(`http://localhost:4000/api/user/location/${id}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ latitude, longitude }),
+    });
+
+    if (res.status !== 200) {
+      return false;
+    }
+
+    const data = await res.json();
+    return true;
   } catch (error) {
     console.error(error);
   }
@@ -132,7 +154,7 @@ const updateUserInfoAPI = async (userInfo) => {
     if (res.status !== 200) {
       return false;
     }
-    return console.log(res.message);
+    return true;
   } catch (error) {
     console.error('error', error);
   }
@@ -145,5 +167,6 @@ export {
   getUserInfoAPI,
   getUsersInfoAPI,
   postUserAPI,
+  updateUserLocationAPI,
   updateUserInfoAPI,
 };

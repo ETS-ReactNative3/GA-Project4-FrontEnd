@@ -9,6 +9,7 @@ import BigLogo from '../components/BigLogo';
 import ErrorMessage from '../components/ErrorMessage';
 import { getTokenAPI } from '../functions/apiFunctions';
 import LoginTextInput from '../components/LoginTextInput';
+import { removeUserID } from '../functions/secureStoreFunctions';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().label('Username'),
@@ -21,6 +22,7 @@ export default function LoginScreen() {
   // const [initialValues, setnitialValues] = useState(initialState)
 
   const login = async (credentials) => {
+    await removeUserID();
     const loggedIn = await getTokenAPI(credentials);
     if (!loggedIn) return setCredentialErr(true);
     navigation.navigate('AdminScreen');

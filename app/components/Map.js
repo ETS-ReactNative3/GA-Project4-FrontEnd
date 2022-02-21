@@ -6,12 +6,14 @@ import * as TaskManager from 'expo-task-manager';
 
 import SelfMarker from './SelfMarker';
 import { useUserLocationContext } from '../context/Context';
+import { retrieveUserID } from '../functions/secureStoreFunctions';
+import { updateUserLocationAPI } from '../functions/apiFunctions';
 
 const LOCATION_TASK = 'LOCATION_TASK';
 let foregroundSubscription = null;
 
 // Define the background task for location tracking
-TaskManager.defineTask(LOCATION_TASK, ({ data, error }) => {
+TaskManager.defineTask(LOCATION_TASK, async ({ data, error }) => {
   if (error) {
     return console.error(error);
   }
@@ -21,9 +23,9 @@ TaskManager.defineTask(LOCATION_TASK, ({ data, error }) => {
     if (location) {
       // console.log('Tracking location in background');
       const { latitude, longitude } = location.coords;
-      // setUserLocation((prevUserLocation) => {
-      //   return { ...prevUserLocation, latitude, longitude };
-      // });
+      const userID = await retrieveUserID();
+      // console.log('background update');
+      await updateUserLocationAPI(userID, latitude, longitude);
     }
   }
 });
@@ -58,11 +60,13 @@ export default function Map({ children }) {
       {
         accuracy: Location.Accuracy.BestForNavigation,
       },
-      (location) => {
+      async (location) => {
         const { latitude, longitude } = location.coords;
         setUserLocation((prevUserLocation) => {
           return { ...prevUserLocation, latitude, longitude };
         });
+        const userID = await retrieveUserID();
+        await updateUserLocationAPI(userID, latitude, longitude);
       }
     );
   };

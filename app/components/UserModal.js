@@ -44,11 +44,11 @@ export default function UserModal({
 
   const checkUserStore = async () => {
     const userID = await retrieveUserID();
-    console.log(userID);
+    // console.log(userID);
     if (!userID) return;
     setUserExist(true);
   };
-  console.log(userExist);
+  // console.log(userExist);
 
   useEffect(async () => {
     checkUserStore();
