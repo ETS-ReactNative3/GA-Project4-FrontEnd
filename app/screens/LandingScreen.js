@@ -11,14 +11,16 @@ export default function LandingScreen() {
 
   return (
     <ScreenWithLogo>
-      <View>
-        <Text style={styles.text}>Feeling overwhelmed? Let us help you</Text>
-      </View>
-
       <View style={styles.container}>
-        <SOSButton />
-      </View>
-      <View style={styles.adminLogin}>
+        <View style={styles.main}>
+          <Text style={styles.text}>
+            Feeling overwhelmed?{'\n'}Losing control?{'\n'}At your wit's end?
+            {'\n\n'}Don't suffer in silence, let us help you.
+          </Text>
+
+          <SOSButton />
+        </View>
+
         <Button
           title='admin login'
           onPress={() => navigation.navigate('LoginScreen')}
@@ -29,12 +31,24 @@ export default function LandingScreen() {
 }
 
 const styles = StyleSheet.create({
-  adminLogin: { alignSelf: 'center', position: 'absolute', bottom: 5 },
   container: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // backgroundColor: 'lightgrey',
+    flex: 1,
+  },
+  main: {
     alignItems: 'center',
   },
   text: {
-    color: colors.medium_dark,
-    fontSize: 20,
+    color: colors.medium,
+    fontFamily: 'Rockwell',
+    fontSize: 24,
+    letterSpacing: 1,
+    paddingHorizontal: 30,
+    paddingTop: 150,
+    paddingBottom: 35,
+    textAlign: 'center',
+    // backgroundColor: 'lightgrey',
   },
 });
