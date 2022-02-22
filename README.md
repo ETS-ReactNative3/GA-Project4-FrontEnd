@@ -22,7 +22,7 @@ Like how spiderman is known as your Friendly Neighborhood who protects people fr
 
 ## Preview
 This is the landing page
-![Landing Page](./app/assets/screenshots/landing-page.png)
+![Landing Page](./app/assets/screenshots/landing-page.png =250x250)
 
 This is the user's screen
 ![User Screen 1](./app/assets/screenshots/user-screen1.png)
