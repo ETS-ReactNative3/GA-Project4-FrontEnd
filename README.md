@@ -21,18 +21,18 @@ Like how spiderman is known as your Friendly Neighborhood who protects people fr
 - upon successful rendering of help, the admin can close the case with the 'close case' button and the particular user's pin will no longer be shown in the map
 
 ## Preview
-This is the landing page
+This is the landing page<br />
 ![Landing Page](./app/assets/screenshots/landing-screen.png)
 
-This is the user's screen
+This is the user's screen<br />
 ![User Screen 1](./app/assets/screenshots/user-screen1.png)
 ![User Screen 2](./app/assets/screenshots/user-screen2.png)
 ![User Screen 3](./app/assets/screenshots/user-screen3.png)
 
-This is the admin's login screen
+This is the admin's login screen<br />
 ![User Screen 1](./app/assets/screenshots/admin-login.png)
 
-This is the admin's screen
+This is the admin's screen<br />
 ![Admin Screen 1](./app/assets/screenshots/admin-screen1.png)
 ![Admin Screen 2](./app/assets/screenshots/admin-screen2.png)
 ![Admin Screen 3](./app/assets/screenshots/admin-screen3.png)
