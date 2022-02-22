@@ -49,7 +49,8 @@ const StackNavigator = () => {
 export default function App() {
   // const socket = io('http://localhost:3000', {
   //   auth: {
-  //     token: 'abc',
+  //     token:
+  //       'e5851e9eac595ecc74258ce2effde682a61f93b59b247096f9a4d1a51ef917134285d1f816870d6594c6f257b267b17d8902356cde58ec6c45628d4851f30212',
   //   },
   // });
 

@@ -17,6 +17,7 @@ const safetyScale = (safetyLevel) => {
 
 export default function ShowUserMarker({ user, index, openModal }) {
   const [selectedUser, setSelectedUser] = useSelectedUserContext();
+  console.log(selectedUser);
   return (
     <Marker
       key={index}

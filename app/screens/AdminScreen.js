@@ -70,7 +70,7 @@ function AdminScreen() {
     navigation.navigate('LoginScreen');
   };
   // console.log(usersInfo);
-
+  // console.log('opencases', openCases);
   useEffect(() => {
     checkToken();
     getUsersInfo();
