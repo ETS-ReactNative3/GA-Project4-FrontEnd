@@ -1,9 +1,11 @@
 import * as SecureStore from 'expo-secure-store';
 import { retrieveToken } from './secureStoreFunctions';
 
+const apiURL = 'https://ameliorate-be.herokuapp.com/api';
+
 const cancelRequestAPI = async (id) => {
   try {
-    const res = await fetch(`http://localhost:4000/api/user/cancel/${id}`, {
+    const res = await fetch(`${apiURL}/user/cancel/${id}`, {
       method: 'PATCH',
     });
     if (res.status !== 200) {
@@ -18,7 +20,7 @@ const cancelRequestAPI = async (id) => {
 const closeCaseAPI = async (id) => {
   const token = await retrieveToken();
   try {
-    const res = await fetch(`http://localhost:4000/api/user/closecase/${id}`, {
+    const res = await fetch(`${apiURL}/user/closecase/${id}`, {
       method: 'PATCH',
       headers: {
         authorization: token,
@@ -36,7 +38,7 @@ const closeCaseAPI = async (id) => {
 
 const getTokenAPI = async (credentials) => {
   try {
-    const res = await fetch('http://localhost:4000/api/auth', {
+    const res = await fetch(`${apiURL}/auth`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -62,7 +64,7 @@ const getTokenAPI = async (credentials) => {
 const getUserInfoAPI = async (id) => {
   const token = await retrieveToken();
   try {
-    const res = await fetch(`http://localhost:4000/api/user/${id}`, {
+    const res = await fetch(`${apiURL}/user/${id}`, {
       method: 'GET',
     });
     const data = await res.json();
@@ -78,7 +80,7 @@ const getUserInfoAPI = async (id) => {
 const getUsersInfoAPI = async () => {
   const token = await retrieveToken();
   try {
-    const res = await fetch('http://localhost:4000/api/user/all', {
+    const res = await fetch(`${apiURL}/user/all`, {
       method: 'GET',
       headers: {
         authorization: token,
@@ -98,7 +100,7 @@ const getUsersInfoAPI = async () => {
 
 const postUserAPI = async (userInfo) => {
   try {
-    const res = await fetch('http://localhost:4000/api/user', {
+    const res = await fetch(`${apiURL}/user`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -120,7 +122,7 @@ const postUserAPI = async (userInfo) => {
 
 const updateUserLocationAPI = async (id, latitude, longitude) => {
   try {
-    const res = await fetch(`http://localhost:4000/api/user/location/${id}`, {
+    const res = await fetch(`${apiURL}/user/location/${id}`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
@@ -143,7 +145,7 @@ const updateUserLocationAPI = async (id, latitude, longitude) => {
 const updateUserInfoAPI = async (userInfo) => {
   const token = await retrieveToken();
   try {
-    const res = await fetch('http://localhost:4000/api/user/edit', {
+    const res = await fetch(`${apiURL}/user/edit`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
