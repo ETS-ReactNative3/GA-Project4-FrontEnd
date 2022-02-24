@@ -27,9 +27,22 @@ import UserFormSubmitted from './UserFormSubmitted';
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label('Name'),
   id: Yup.string().required().label('ID'),
-  gender: Yup.string().required().max(1).label('Gender'),
-  age: Yup.number().required().max(120).label('Age'),
-  safety: Yup.number().required().min(0).max(10).label('This'),
+  gender: Yup.string()
+    .required()
+    .max(1)
+    .matches(/^(?:M|F)$/, 'Please key in F or M')
+    .label('Gender'),
+  age: Yup.number()
+    .typeError('Age must be a number')
+    .required()
+    .max(120)
+    .label('Age'),
+  safety: Yup.number()
+    .typeError('Please specify be a number')
+    .required()
+    .min(0)
+    .max(10)
+    .label('This'),
   emotion: Yup.string().required().label('This'),
   situation: Yup.string().required().label('This'),
   perpetrator: Yup.string().required().label('This'),
@@ -42,15 +55,15 @@ export default function UserForm({ userExist }) {
   const [editable, setEditable] = useState(true);
   const [userInfo, setUserInfo] = useState(null);
   const [initialValues, setInitialValues] = useState({
-    name: null,
-    id: null,
-    gender: null,
-    age: null,
-    safety: null,
-    emotion: null,
-    situation: null,
-    perpetrator: null,
-    companion: false,
+    name: '',
+    id: '',
+    gender: '',
+    age: '',
+    safety: '',
+    emotion: '',
+    situation: '',
+    perpetrator: '',
+    companion: '',
   });
 
   const submitForm = async (values) => {
@@ -145,7 +158,8 @@ export default function UserForm({ userExist }) {
                 editable={editable}
                 keyboardType='number-pad'
                 name='age'
-                value={userInfo ? `${values.age}` : ''}
+                // {userInfo?value=`${values.age}`:null}
+                value={userInfo ? `${values.age}` : values.age}
               />
             </View>
 
@@ -189,7 +203,7 @@ export default function UserForm({ userExist }) {
                 keyboardType='number-pad'
                 name='safety'
                 placeholder='0-10'
-                value={userInfo ? `${values.safety}` : ''}
+                value={userInfo ? `${values.safety}` : values.safety}
               />
             </View>
 
