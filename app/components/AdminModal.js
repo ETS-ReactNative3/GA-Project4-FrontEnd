@@ -73,7 +73,8 @@ export default function AdminModal({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    borderRadius: 30,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
     paddingHorizontal: 20,
     shadowColor: colors.medium,
     shadowOffset: { width: 0, height: -1 },
