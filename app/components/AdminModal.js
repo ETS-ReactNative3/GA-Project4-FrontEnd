@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
-    paddingHorizontal: 20,
     shadowColor: colors.medium,
     shadowOffset: { width: 0, height: -1 },
     shadowOpacity: 1,
@@ -88,7 +87,9 @@ const styles = StyleSheet.create({
   },
   scroll: {
     backgroundColor: 'white',
-    borderRadius: 30,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+    paddingHorizontal: 20,
     shadowColor: 'black',
     shadowOffset: { width: 2, height: 1 },
     shadowOpacity: 1,
