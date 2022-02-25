@@ -22,9 +22,9 @@ import {
   retrieveToken,
   retrieveUsername,
 } from '../functions/secureStoreFunctions';
-import LogoutButton from '../components/LogoutButton';
 import AdminModal from '../components/AdminModal';
 import ShowUserMarker from '../components/ShowUserMarker';
+import SimpleButton from '../components/SimpleButton';
 
 const socket = io('http://localhost:3000', {
   auth: {
@@ -95,7 +95,8 @@ function AdminScreen() {
             })
           : null}
       </Map>
-      <LogoutButton onPress={logout} />
+      <SimpleButton onPress={getUsersInfo} position='right' title='Refresh' />
+      <SimpleButton onPress={logout} position='left' title='Logout' />
       <AdminModal
         modalArrow={modalArrow}
         setModalArrow={setModalArrow}
