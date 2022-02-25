@@ -47,6 +47,10 @@ List of technologies used:
 - expo-secure-store to tap into local storage of a mobile
 - react-native-maps, expo-task-manager, expo-location to build the map component
 - formik to submit/edit a form
+- node.js
+- express
+- jwt
+- mongoDB/mongoose
 
 ## Areas for futher development
 - use socket io to send data from server to client,so as to provide admins automatic updates of new users or changes to existing users
