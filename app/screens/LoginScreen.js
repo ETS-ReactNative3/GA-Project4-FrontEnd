@@ -10,6 +10,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import { getTokenAPI } from '../functions/apiFunctions';
 import LoginTextInput from '../components/LoginTextInput';
 import { removeUserID } from '../functions/secureStoreFunctions';
+import colors from '../config/colors';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().label('Username'),
@@ -97,7 +98,8 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   screen: {
-    // flex: 1,
+    backgroundColor: colors.white,
+    flex: 1,
   },
   container: {
     padding: 20,
