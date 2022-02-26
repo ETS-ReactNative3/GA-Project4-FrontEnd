@@ -4,7 +4,7 @@
 
 ## Background
 
-This mobile app is motivated by the recent Greenridge Crescent incident, where a father was suspected (later arrested) to be involved in the death of his two 11-year-old sons. At the point of time where this project idea was form, it was rumored that these 2 children were twins with special needs.
+This mobile app is motivated by the recent Greenridge Crescent incident, where a father was suspected (later arrested) to be involved in the death of his two 11-year-old sons with special needs.
 
 Like how spiderman is known as your Friendly Neighborhood who protects people from villians, **Ameliorate** hopes to be your Neighborhood Guardian who will help you fight (yours or other's) inner demons or take care of your mental well-being.
 
